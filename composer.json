@@ -1,0 +1,18 @@
+{
+  "name": "amclab/baseline",
+  "description": "AmcLab Coding conventions",
+  "authors": [
+      {
+          "name": "Federico Torrisi",
+          "email": "fedro.torrisi@gmail.com"
+      }
+  ],
+  "minimum-stability": "dev",
+  "require": {},
+  "extra": {},
+  "autoload": {
+      "psr-4": {
+          "AmcLab\\Baseline\\": "src/"
+      }
+  }
+}
