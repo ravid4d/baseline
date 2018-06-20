@@ -3,6 +3,7 @@
 namespace AmcLab\Baseline\HashGenerators;
 
 use AmcLab\Baseline\Contracts\HashGenerators\SodiumHashGenerator as Contract;
+use AmcLab\Baseline\Exceptions\HashGeneratorException;
 use BadMethodCallException;
 use Exception;
 use Illuminate\Contracts\Config\Repository;
@@ -26,7 +27,7 @@ class SodiumHashGenerator implements Contract {
     }
 
     /**
-     * Genera una chiave hash per un array variabile di stringhe
+     * Genera una chiave hash da un array di stringhe o da un numero arbitrario di stringhe passate come argument
      *
      * @param string $keyName short | generic
      * @param mixed ...$args
@@ -38,48 +39,27 @@ class SodiumHashGenerator implements Contract {
             $args = $args[0];
         }
 
-        if ($key = $this->keys[strtolower($keyName)] ?? null) {
-            $function = strlen($key) === 16 ? 'sodium_crypto_shorthash' : 'sodium_crypto_generichash';
-            $params = strlen($key) === 16 ? [$key] : [$key, 16];
-            return bin2hex($function(implode("\xFE", $args) . "\xDE", ...$params));
+        $requested = explode(':', $keyName);
+        $name = $requested[0];
+        $size = $requested[1] ?? null;
+
+        if (!$key = $this->keys[$name]) {
+            throw new HashGeneratorException("No application-wide key configured for '$name'");
         }
 
-        throw new InvalidArgumentException("No generator for '$keyName'");
+        $input = join("\xFE", $args) . "\xDE";
 
-    }
-
-    /**
-     * Metodo magic per instradare correttamente le chiamate verso $this->generate
-     * con una sintassi semplificata (es.: $this->generateShortKey($str) )
-     *
-     * @param string $name
-     * @param array $args
-     * @return void
-     */
-    public function __call(string $name, array $args) :? string {
-
-        $recent = null;
-
-        if (substr($name, 0, 8) === "generate" && substr($name, -3) === "Key") {
-
-            $keyName = strtolower(substr($name, 8, -3));
-
-            try {
-                return $this->generate($keyName, $args);
-            }
-
-            catch(InvalidArgumentException $e) {
-                // ...viene smaltita sotto
-                $recent = $e;
-            }
-
-            catch(Exception $e) {
-                throw $e;
-            }
-
-
+        if ($name === 'generic') {
+            return sodium_crypto_generichash($input, $key, $size ?? SODIUM_CRYPTO_GENERICHASH_BYTES);
         }
-        throw new BadMethodCallException("Invalid method ".__CLASS__."->$name() called", 0, $recent);
+
+        else if ($name === 'short') {
+            return sodium_crypto_shorthash($input, $key);
+        }
+
+        else {
+            throw new HashGeneratorException("No generator for '$name'");
+        }
 
     }
 
