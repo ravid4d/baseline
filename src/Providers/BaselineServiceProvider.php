@@ -9,7 +9,7 @@ class BaselineServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes(array(
-            __DIR__.'../../config/sodium-hash-generator.php' => config_path('sodium-hash-generator.php'),
+            __DIR__.'../../config/hash-generator.php' => config_path('hash-generator.php'),
         ), 'config');
     }
 

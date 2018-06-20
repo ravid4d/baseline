@@ -16,7 +16,7 @@ class SodiumHashGenerator implements Contract {
     protected $keys;
 
     public function __construct(Repository $configRepository) {
-        $this->config = $configRepository->get('sodium-hash-generator');
+        $this->config = $configRepository->get('hash-generator.sodium');
 
         foreach ($this->config as $keyName => $keyValue) {
             if (substr($keyValue, 0, 7) === 'base64:') {
