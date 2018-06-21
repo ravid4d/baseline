@@ -9,8 +9,14 @@
   ],
   "minimum-stability": "dev",
   "require": {},
-  "extra": {},
-  "autoload": {
+  "extra": {
+    "laravel": {
+        "providers": [
+            "AmcLab\\Baseline\\Providers\\BaselineServiceProvider"
+        ]
+    }
+},
+"autoload": {
       "psr-4": {
           "AmcLab\\Baseline\\": "src/"
       }

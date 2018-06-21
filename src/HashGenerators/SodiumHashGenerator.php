@@ -2,7 +2,7 @@
 
 namespace AmcLab\Baseline\HashGenerators;
 
-use AmcLab\Baseline\Contracts\HashGenerators\SodiumHashGenerator as Contract;
+use AmcLab\Baseline\Contracts\HashGenerator;
 use AmcLab\Baseline\Exceptions\HashGeneratorException;
 use BadMethodCallException;
 use Exception;
@@ -10,7 +10,7 @@ use Illuminate\Contracts\Config\Repository;
 use Illuminate\Encryption\Encrypter;
 use InvalidArgumentException;
 
-class SodiumHashGenerator implements Contract {
+class SodiumHashGenerator implements HashGenerator {
 
     protected $config;
     protected $keys;
