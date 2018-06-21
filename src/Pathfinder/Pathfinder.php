@@ -13,7 +13,7 @@ class Pathfinder implements Contract {
     protected $hashGenerator;
 
     public function __construct(Repository $configRepository, HashGenerator $hashGenerator) {
-        $this->config = $configRepository->get('keymaster-store.pathfinder');
+        $this->config = $configRepository->get('pathfinder');
         $this->hashGenerator = $hashGenerator;
     }
 
