@@ -31,7 +31,11 @@ class Pathfinder implements Contract {
 
         $cacheUid = 'pathfinder' . md5(json_encode($breadcrumbs));
 
-        return $this->cache->remember($cacheUid, $this->config['cache-ttl'] ?? 60, function() use ($breadcrumbs) {
+        // determina se lo store implementa il tagging ed eventualmente lo usa
+        $cache = $this->cache->getStore() instanceof \Illuminate\Cache\TaggableStore
+            ? $this->cache->tags(['pathfinder']) : $this->cache;
+
+        return $cache->remember($cacheUid, $this->config['cache-ttl'] ?? 120, function() use ($breadcrumbs) {
 
             return [
 

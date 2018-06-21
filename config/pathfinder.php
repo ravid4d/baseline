@@ -2,7 +2,7 @@
 
 return [
 
-    'cache-ttl' => 1440,
+    'cache-ttl' => 120,
 
     'chains' => [
 
