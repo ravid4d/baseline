@@ -5,6 +5,7 @@ namespace AmcLab\Baseline\Pathfinder;
 use AmcLab\Baseline\Contracts\HashGenerator;
 use AmcLab\Baseline\Contracts\Pathfinder as Contract;
 use AmcLab\Baseline\Exceptions\PathfinderException;
+use Illuminate\Contracts\Cache\Repository as CacheRepository;
 use Illuminate\Contracts\Config\Repository;
 
 class Pathfinder implements Contract {
@@ -12,12 +13,13 @@ class Pathfinder implements Contract {
     protected $config;
     protected $hashGenerator;
 
-    public function __construct(Repository $configRepository, HashGenerator $hashGenerator) {
+    public function __construct(Repository $configRepository, HashGenerator $hashGenerator, CacheRepository $cache) {
         $this->config = $configRepository->get('pathfinder');
         $this->hashGenerator = $hashGenerator;
+        $this->cache = $cache;
     }
 
-    public function for(array $breadcrumbs = []) {
+    public function for(...$breadcrumbs) {
 
         if (!count($breadcrumbs)) {
             throw new PathfinderException('No path to follow');
@@ -27,26 +29,32 @@ class Pathfinder implements Contract {
             $breadcrumbs = array_shift($breadcrumbs);
         }
 
-        return [
+        $id = md5(json_encode($breadcrumbs));
 
-            // originale
-            'breadcrumbs' => $breadcrumbs,
+        return $this->cache->rememberForever('pathfinder-'.$id, function() use ($breadcrumbs) {
 
-            // versione normalizzata (senza caratteri non alfanumerici)
-            'normalized' => $normalized = array_map(function($v){
-                return trim(preg_replace('/[^a-zA-Z0-9]+/', '_', $v), '_');
-            }, $breadcrumbs),
+            return [
 
-            // costruisce la catena di pezzi per comporre il resourceId
-            'resourceId' => $resourceId = $this->mergeChain('resourceId', $normalized),
+                // originale
+                'breadcrumbs' => $breadcrumbs,
 
-            // genera un identificatore univoco per la risorsa
-            'uid' => bin2hex($this->hashGenerator->generate('short', $resourceId)),
+                // versione normalizzata (senza caratteri non alfanumerici)
+                'normalized' => $normalized = array_map(function($v){
+                    return trim(preg_replace('/[^a-zA-Z0-9]+/', '_', $v), '_');
+                }, $breadcrumbs),
 
-            // genera la chiave di cifratura unica per l'applicazione e per la risorsa
-            'uniqueKey' => $uniqueKey = $this->mergeChain('uniqueKey', $resourceId, 'generic'),
+                // costruisce la catena di pezzi per comporre il resourceId
+                'resourceId' => $resourceId = $this->mergeChain('resourceId', $normalized),
 
-        ];
+                // genera un identificatore univoco per la risorsa
+                'uid' => bin2hex($this->hashGenerator->generate('short', $resourceId)),
+
+                // genera la chiave di cifratura unica per l'applicazione e per la risorsa
+                'uniqueKey' => $uniqueKey = $this->mergeChain('uniqueKey', $resourceId, 'generic'),
+
+            ];
+
+        });
 
     }
 
