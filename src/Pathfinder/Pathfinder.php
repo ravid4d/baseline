@@ -29,9 +29,9 @@ class Pathfinder implements Contract {
             $breadcrumbs = array_shift($breadcrumbs);
         }
 
-        $id = md5(json_encode($breadcrumbs));
+        $cacheUid = 'pathfinder' . md5(json_encode($breadcrumbs));
 
-        return $this->cache->rememberForever('pathfinder-'.$id, function() use ($breadcrumbs) {
+        return $this->cache->remember($cacheUid, $this->config['cache-ttl'] ?? 60, function() use ($breadcrumbs) {
 
             return [
 

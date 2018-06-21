@@ -2,6 +2,8 @@
 
 return [
 
+    'cache-ttl' => 1440,
+
     'chains' => [
 
         // catena di elementi usati per comporre la resourceId
