@@ -12,9 +12,10 @@ class Pathfinder implements Contract {
 
     protected $config;
     protected $hashGenerator;
+    protected $cache;
 
     public function __construct(Repository $configRepository, HashGenerator $hashGenerator, CacheRepository $cache) {
-        $this->config = $configRepository->get('pathfinder');
+        $this->config = $configRepository->get('baseline.pathfinder');
         $this->hashGenerator = $hashGenerator;
         $this->cache = $cache;
     }

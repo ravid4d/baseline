@@ -16,7 +16,7 @@ class SodiumHashGenerator implements HashGenerator {
     protected $keys;
 
     public function __construct(Repository $configRepository) {
-        $this->config = $configRepository->get('hash-generator.sodium');
+        $this->config = $configRepository->get('baseline.hash-generators.sodium');
 
         foreach ($this->config as $keyName => $keyValue) {
             if (substr($keyValue, 0, 7) === 'base64:') {
