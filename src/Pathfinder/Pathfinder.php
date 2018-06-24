@@ -52,10 +52,10 @@ class Pathfinder implements Contract {
                 'resourceId' => $resourceId = $this->mergeChain('resourceId', $normalized),
 
                 // genera un identificatore univoco per la risorsa
-                'uid' => bin2hex($this->hashGenerator->generate('id', $resourceId)),
+                'uid' => bin2hex($this->hashGenerator->generate('uid', $resourceId)),
 
                 // genera la chiave di cifratura unica per l'applicazione e per la risorsa
-                'uniqueKey' => $uniqueKey = $this->hashGenerator->generate('key:AES-256-CBC', $this->mergeChain('uniqueKey', $resourceId)),
+                'key:32' => $uniqueKey = $this->hashGenerator->generate('key:32', $this->mergeChain('key', $resourceId)),
 
             ];
 

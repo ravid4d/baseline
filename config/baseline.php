@@ -26,7 +26,7 @@ return [
             ],
 
             // catena di elementi cifrabili usati per la composizione della chiave di cifratura finale
-            'uniqueKey' => [
+            'key' => [
                 env('KEYMASTER_KEY'),
                 env('APP_KEY'),
                 env('APP_PRODUCT_CODE'),
