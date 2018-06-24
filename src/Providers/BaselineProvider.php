@@ -3,10 +3,10 @@ namespace AmcLab\Baseline\Providers;
 
 use AmcLab\Baseline\Contracts\HashGenerator;
 use AmcLab\Baseline\Contracts\Pathfinder;
-use AmcLab\Baseline\Providers\RemoteLoggerServiceProvider;
+use AmcLab\Baseline\Providers\RemoteLoggerProvider;
 use Illuminate\Support\ServiceProvider;
 
-class BaselineServiceProvider extends ServiceProvider
+class BaselineProvider extends ServiceProvider
 {
 
     public function boot()

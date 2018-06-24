@@ -12,7 +12,7 @@
   "extra": {
     "laravel": {
         "providers": [
-            "AmcLab\\Baseline\\Providers\\BaselineServiceProvider"
+            "AmcLab\\Baseline\\Providers\\BaselineProvider"
         ]
     }
 },
