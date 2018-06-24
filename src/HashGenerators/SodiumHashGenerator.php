@@ -49,11 +49,13 @@ class SodiumHashGenerator implements HashGenerator {
 
         $input = join("\xFE", $args) . "\xDE";
 
-        if ($name === 'generic') {
+        // genera una chiave con lunghezza compatibile con aes256
+        if ($name === 'key:AES-256-CBC') {
             return sodium_crypto_generichash($input, $key, $size ?? SODIUM_CRYPTO_GENERICHASH_BYTES);
         }
 
-        else if ($name === 'short') {
+        // genera una chiave hash breve (per indicizzazione)
+        else if ($name === 'id') {
             return sodium_crypto_shorthash($input, $key);
         }
 

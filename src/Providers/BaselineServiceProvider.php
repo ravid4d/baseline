@@ -18,6 +18,9 @@ class BaselineServiceProvider extends ServiceProvider
 
     public function register()
     {
+        $config = $this->app->config['baseline'];
+
+        $this->app->bind(HashGenerator::class, $config['hash-generator']);
         $this->app->bind(Pathfinder::class, \AmcLab\Baseline\Pathfinder\Pathfinder::class);
     }
 

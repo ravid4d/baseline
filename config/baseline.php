@@ -11,6 +11,8 @@ return [
 
     ],
 
+    'hash-generator' => \AmcLab\Baseline\HashGenerators\SodiumHashGenerator::class,
+
     'pathfinder' => [
 
         'cache-ttl' => 120,
