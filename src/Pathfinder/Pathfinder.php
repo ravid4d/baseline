@@ -51,11 +51,14 @@ class Pathfinder implements Contract {
                 // costruisce la catena di pezzi per comporre il resourceId
                 'resourceId' => $resourceId = $this->mergeChain('resourceId', $normalized),
 
-                // genera un identificatore univoco per la risorsa
-                'uid' => bin2hex($this->hashGenerator->generate('uid', $resourceId)),
+                // ...sistemare...
+                'linkableResourceId' => $linkableResourceId = join('_', $this->mergeChain('resourceId', $normalized, true)),
 
-                // genera la chiave di cifratura unica per l'applicazione e per la risorsa
-                'key:32' => $uniqueKey = $this->hashGenerator->generate('key:32', $this->mergeChain('key', $resourceId)),
+                // genera un identificatore univoco per la risorsa (non replicabile fuori dall'app)
+                'uniqueIdentifier' => bin2hex($this->hashGenerator->generate('uid', $resourceId)),
+
+                // genera una chiave AES-256-CBC unica (non replicabile fuori dall'app) per la risorsa
+                'key:AES-256-CBC' => $uniqueKey = $this->hashGenerator->generate('key:32', $this->mergeChain('key', $resourceId)),
 
             ];
 
@@ -70,9 +73,15 @@ class Pathfinder implements Contract {
      * @param array $breadcrumbs
      * @return void
      */
-    protected function mergeChain(string $name, array $breadcrumbs) {
+    protected function mergeChain(string $name, array $breadcrumbs, bool $skipType = false) {
 
         $chain = $this->config['chains'][$name];
+
+        if ($skipType && in_array($breadcrumbs[0] ?? null, ['tenant','database-server'])) {
+            unset($breadcrumbs[0]);
+            $breadcrumbs = array_values($breadcrumbs);
+        }
+
         return array_merge($chain, $breadcrumbs);
 
     }

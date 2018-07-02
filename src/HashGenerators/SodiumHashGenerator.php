@@ -39,9 +39,7 @@ class SodiumHashGenerator implements HashGenerator {
             $args = $args[0];
         }
 
-        $requested = explode(':', $keyName);
-        $name = $requested[0];
-        $size = $requested[1] ?? null;
+        [$name, $size] = array_slice(explode(':', $keyName) + [null, null], 0, 2);
 
         // if (!$key = $this->keys[$name] ?? null) {
         //     throw new HashGeneratorException("No application-wide key configured for '$name'");
@@ -49,9 +47,9 @@ class SodiumHashGenerator implements HashGenerator {
 
         $input = join("\xFE", $args) . "\xDE";
 
-        // genera una chiave con lunghezza compatibile con aes256
+        // genera una chiave con lunghezza specifica (default \SODIUM_CRYPTO_GENERICHASH_BYTES = 32)
         if ($name === 'key') {
-            return sodium_crypto_generichash($input, $this->keys['generic'], $size ?? SODIUM_CRYPTO_GENERICHASH_BYTES);
+            return sodium_crypto_generichash($input, $this->keys['generic'], $size ?? \SODIUM_CRYPTO_GENERICHASH_BYTES);
         }
 
         // genera una chiave hash breve (per indicizzazione)

@@ -19,6 +19,9 @@
 "autoload": {
       "psr-4": {
           "AmcLab\\Baseline\\": "src/"
-      }
+      },
+      "files": [
+        "src/helpers.php"
+      ]
   }
 }
