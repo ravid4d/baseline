@@ -1,27 +1,28 @@
 {
   "name": "amclab/baseline",
   "description": "AmcLab Coding conventions",
-  "authors": [
-      {
-          "name": "Federico Torrisi",
-          "email": "federico@amcweb.it"
-      }
-  ],
+  "authors": [{
+    "name": "Federico Torrisi",
+    "email": "federico@amcweb.it"
+  }],
   "minimum-stability": "dev",
-  "require": {},
+  "require": {
+    "php": "^7.2",
+    "laravel/framework": "^5.6",
+  },
   "extra": {
     "laravel": {
-        "providers": [
-            "AmcLab\\Baseline\\Providers\\BaselineServiceProvider"
-        ]
-    }
-},
-"autoload": {
-      "psr-4": {
-          "AmcLab\\Baseline\\": "src/"
-      },
-      "files": [
-        "src/helpers.php"
+      "providers": [
+        "AmcLab\\Baseline\\Providers\\BaselineServiceProvider"
       ]
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "AmcLab\\Baseline\\": "src/"
+    },
+    "files": [
+      "src/helpers.php"
+    ]
   }
 }
