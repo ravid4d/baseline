@@ -11,7 +11,7 @@ class BaselineServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes(array(
-            __DIR__.'../../config/baseline.php' => config_path('baseline.php'),
+            __DIR__.'/../../config/baseline.php' => config_path('baseline.php'),
         ), 'config');
     }
 
