@@ -25,7 +25,7 @@ function array_map_recursive(callable $callback, array ...$array) : array {
  * @param array|null $new
  * @return array
  */
-function arrayVersionCompare(?array $old, ?array $new) : array {
+function array_versions_compare(?array $old, ?array $new) : array {
     $diffs = [];
     $checked = [];
 
@@ -108,4 +108,16 @@ function arrayVersionCompare(?array $old, ?array $new) : array {
     // restituisce il risultato
     return array_values($diffs);
 
+}
+
+/**
+ * Genera un hash breve da una stringa o un array di stringhe usando l'HashGenerator
+ * configurato (default: lib_sodium).
+ *
+ * @param mixed $input
+ * @param bool $isMixed Settare a true se l'input non è stringa o array di stringhe (usa serialize())
+ * @return string
+ */
+function create_uid($input, bool $isMixed = false) {
+    return bin2hex(app(\AmcLab\Baseline\Contracts\HashGenerator::class)->generate('uid', $isMixed ? serialize($input) : $input));
 }
