@@ -13,6 +13,10 @@ trait HasEventsDispatcherTrait {
         return $this;
     }
 
+    final public function getEventsDispatcher() : Dispatcher {
+        return $this->events;
+    }
+
     final public function fire($event, $payload = [], bool $halt = false) {
         if ($this->events) {
             $payload = $payload ? ['with' => $payload]: [];
