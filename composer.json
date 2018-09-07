@@ -14,7 +14,10 @@
     "laravel": {
       "providers": [
         "AmcLab\\Baseline\\Providers\\BaselineServiceProvider"
-      ]
+      ],
+      "aliases": {
+        "Output": "AmcLab\\Baseline\\Facades\\OutputFacade"
+      }
     }
   },
   "autoload": {
