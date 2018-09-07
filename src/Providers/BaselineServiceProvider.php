@@ -24,7 +24,7 @@ class BaselineServiceProvider extends ServiceProvider
         $this->app->bind(HashGenerator::class, $config['hash-generator']);
         $this->app->bind(Pathfinder::class, \AmcLab\Baseline\Pathfinder\Pathfinder::class);
         $this->app->bind(OutputInterface::class, \Symfony\Component\Console\Output\ConsoleOutput::class);
-        $this->app->bind(Output::class, \AmcLab\Baseline\Output\Output::class);
+        $this->app->singleton(Output::class, \AmcLab\Baseline\Output\Output::class);
 
         $this->app->alias(Output::class, 'console.output');
 
