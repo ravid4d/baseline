@@ -121,3 +121,7 @@ function array_versions_compare(?array $old, ?array $new) : array {
 function create_uid($input, bool $isMixed = false) {
     return bin2hex(app(\AmcLab\Baseline\Contracts\HashGenerator::class)->generate('uid', $isMixed ? serialize($input) : $input));
 }
+
+function running_in_console() {
+    return php_sapi_name() === 'cli' || php_sapi_name() === 'phpdbg';
+}

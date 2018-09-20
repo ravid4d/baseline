@@ -55,7 +55,7 @@ class Output {
     }
 
     public function debug($data, $always = false) {
-        if (env('APP_DEBUG') || $always) {
+        if (running_in_console()) {
             $this->question('DEBUG DUMP:');
             dump($data);
         }
