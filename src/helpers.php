@@ -126,7 +126,7 @@ function running_in_console() {
     return php_sapi_name() === 'cli' || php_sapi_name() === 'phpdbg';
 }
 
-function console_login($user) {
+function console_login(\Illuminate\Contracts\Auth\Authenticatable $user) {
     return \Auth::guard()->setUser($user);
 }
 
