@@ -40,7 +40,7 @@ function array_versions_compare(?array $old, ?array $new) : array {
                 $diffs[] = [
                     'subAttribute' => $key,
                     'subEvent' => $exists ? 'updated' : 'deleted',
-                    'changes' => $exists ? $this->{__FUNCTION__}($currentValue, $comparedValue) : [
+                    'changes' => $exists ? call_user_func(__FUNCTION__, [$currentValue, $comparedValue]) : [
                         'oldValue' => $currentValue,
                         'newValue' => null,
                     ]
@@ -75,7 +75,7 @@ function array_versions_compare(?array $old, ?array $new) : array {
                 $diffs[] = [
                     'subAttribute' => $key,
                     'subEvent' => $exists ? 'updated' : 'created',
-                    'changes' => $this->{__FUNCTION__}($comparedValue, $currentValue)
+                    'changes' => call_user_func(__FUNCTION__, [$comparedValue, $currentValue]),
                 ];
             }
             else {
