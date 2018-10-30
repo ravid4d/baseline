@@ -133,3 +133,9 @@ function console_login(\Illuminate\Contracts\Auth\Authenticatable $user) {
 function console_logout() {
     return \Auth::guard()->setUser(new \Illuminate\Foundation\Auth\User);
 }
+
+function restrict_number($value, $firstBoundary = -INF, $lastBoundary = INF) {
+    $min = min($firstBoundary, $lastBoundary);
+    $max = max($firstBoundary, $lastBoundary);
+    return min(max($value, $min), $max);
+}
