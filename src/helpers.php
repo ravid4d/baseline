@@ -127,7 +127,9 @@ function running_in_console() {
 }
 
 function console_login(\Illuminate\Contracts\Auth\Authenticatable $user) {
-    $logged = \Auth::guard()->getProvider()->retrieveById($user->id);
+    if (method_exists(\Auth::guard()->getProvider(), 'checkUser')) {
+        \Auth::guard()->getProvider()->checkUser($user);
+    }
     \Auth::guard()->setUser($user);
     return;
 }
