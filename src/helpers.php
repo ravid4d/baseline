@@ -127,11 +127,14 @@ function running_in_console() {
 }
 
 function console_login(\Illuminate\Contracts\Auth\Authenticatable $user) {
-    return \Auth::guard()->setUser($user);
+    $logged = \Auth::guard()->getProvider()->retrieveById($user->id);
+    \Auth::guard()->setUser($user);
+    return;
 }
 
 function console_logout() {
-    return \Auth::guard()->setUser(new \Illuminate\Foundation\Auth\User);
+    \Auth::guard()->setUser(new \Illuminate\Foundation\Auth\User);
+    return;
 }
 
 function restrict_number($value, $firstBoundary = -INF, $lastBoundary = INF) {
