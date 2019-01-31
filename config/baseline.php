@@ -15,7 +15,7 @@ return [
 
     'pathfinder' => [
 
-        'cache-ttl' => 120,
+        'cache-ttl' => now()->addMinutes(2),
 
         'chains' => [
 
