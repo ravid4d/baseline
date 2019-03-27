@@ -17,10 +17,10 @@ trait HasEventsDispatcherTrait {
         return $this->events;
     }
 
-    final public function fire($event, $payload = [], bool $halt = false) {
+    final public function dispatch($event, $payload = [], bool $halt = false) {
         if ($this->events) {
             $payload = $payload ? ['with' => $payload]: [];
-            return $this->events->fire($event, array_merge(['class' => static::class], $payload));
+            return $this->events->dispatch($event, array_merge(['class' => static::class], $payload));
         }
     }
 
